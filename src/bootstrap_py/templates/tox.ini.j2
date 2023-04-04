@@ -1,5 +1,4 @@
 [tox]
-isolated_build = True
 envlist =
     py311,
     flake8,
@@ -9,55 +8,43 @@ envlist =
 
 [py]
 deps=
-    six
-    mock
-    requests-mock
     pytest-cov
     pytest-random
     pytest-remove-stale-bytecode
-
-[flake8]
-per-file-ignores =
-exclude = .tox/*
-
-[pycodestyle]
-show-source=True
-statistics=True
-exclude=.git,__pycache__,.tox/*,docs/*
 
 [testenv:py311]
 deps=
     {[py]deps}
 basepython = python3.11
-commands =
-    pytest -v --random --cov=src --cov-report=term --cov-report=html
+commands = pytest -v --random --cov=src/{{ module_name }} --cov-report=term --cov-report=html
 
 [testenv:py310]
 deps=
     {[py]deps}
 basepython = python3.10
-commands =
-    pytest -v --random --cov=src --cov-report=term --cov-report=html
+commands = pytest -v --random --cov=src/{{ module_name }} --cov-report=term --cov-report=html
 
 [testenv:py39]
 deps=
     {[py]deps}
 basepython = python3.9
-commands =
-    pytest -v --random --cov=src --cov-report=term --cov-report=html
+commands = pytest -v --random --cov=src/{{ module_name }} --cov-report=term --cov-report=html
 
 [testenv:pypy3]
 deps=
     {[py]deps}
 basepython = pypy3
-commands =
-    pytest -v --random --cov=src --cov-report=term --cov-report=html
+commands = pytest -v --random --cov=src/{{ module_name }} --cov-report=term --cov-report=html
 
 [testenv:flake8]
-deps=flake8
+exclude = .tox/*
+deps = flake8
 commands = flake8 src
 
 [testenv:pycodestyle]
+show-source=True
+statistics=True
+exclude=.git,__pycache__,.tox/*,docs/*
 deps=pycodestyle
 commands = pycodestyle -v --first src
 
@@ -70,4 +57,3 @@ deps=
     Sphinx
     sphinx_rtd_theme
 commands = sphinx-build -M html docs/source docs/build
-
